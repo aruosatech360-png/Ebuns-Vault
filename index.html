@@ -165,6 +165,21 @@
         </div>
     </div>
 
+    <!-- Goal Setting Template Popup -->
+    <div id="goalPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl shadow-xl p-8 max-w-2xl w-full relative mx-4">
+            <button onclick="hidePopup('goalPopup')" class="absolute top-4 right-5 text-stone-500 hover:text-blue-900 text-3xl font-bold">&times;</button>
+            <h2 class="text-3xl font-bold mb-6 text-blue-900">Goal-Setting Template</h2>
+            <div class="text-stone-600 space-y-4 max-h-[70vh] overflow-y-auto pr-4 text-lg">
+                <p>Ambition is powerful—but uncontrolled ambition is a trap. If you don’t write down your thoughts, goals, and strategies, you’ll keep chasing without ever catching anything. You must write. Write your ambitions. Write your goals. Write your action steps. Without writing, you will fail.</p>
+                <p>If you don’t know where to start, I’ve created a goal-setting template to help you put structure to your ambition.</p>
+            </div>
+            <a href="https://drive.google.com/file/d/1CUIFeJ0dlh7LHgBKRdgL9Q-D5i-PSrAS/view?usp=drivesdk" target="_blank" class="mt-6 inline-block bg-amber-500 text-blue-900 font-bold px-8 py-3 rounded-full text-lg hover:bg-stone-200 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                Get The Template
+            </a>
+        </div>
+    </div>
+
     <main>
         <!-- Hero Section -->
         <section class="hero-gradient text-white">
@@ -233,14 +248,56 @@
                         </div>
                     </div>
 
+                    <!-- Product 6: Goal-Setting Template -->
+                    <div class="group relative rounded-2xl shadow-lg overflow-hidden">
+                        <img src="Goal setting.jpg" alt="Goal-Setting Template" class="w-full object-cover aspect-[4/3] transition-transform duration-300 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-6">
+                            <h3 class="text-xl font-bold mb-2 text-white">Goal-Setting Template</h3>
+                            <p class="text-stone-200 mb-4 max-w-xs mx-auto">A template to help you structure your ambition and turn goals into reality.</p>
+                            <button onclick="showPopup('goalPopup')" class="mt-4 bg-blue-900 text-white font-semibold px-6 py-2 rounded-full hover:bg-amber-500 hover:text-blue-900 transition-all duration-300">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blogs & Articles Section -->
+        <section id="blogs-articles" class="bg-white py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-blue-900">Blogs & Articles</h2>
+                    <p class="text-stone-500 max-w-3xl mx-auto mb-12 text-lg">Dive into our latest insights, tips, and strategies for digital growth and personal development.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Post 6: Social Media Growth -->
                     <div class="bg-white rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col">
                         <div class="p-6 flex-grow">
                             <h3 class="text-2xl font-semibold text-gray-900 mb-2">Turn Social Media into a Growth Tool</h3>
                             <p class="text-gray-600 mb-4">Learn to transform social media from a distraction into a powerful growth tool. This guide covers the mindset shift, monetization strategies, and time-saving apps to monetize your online presence.</p>
                         </div>
-                        <div class="p-6 pt-0">
+                        <div class="p-6 pt-0 mt-auto">
                             <a href="Blog Post 6.html" class="text-blue-900 font-medium hover:underline">Read More &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Post 7: Ambition -->
+                    <div class="bg-white rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col">
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-2xl font-semibold text-gray-900 mb-2">Ambition Will Destroy You If You Don’t Write It Down</h3>
+                            <p class="text-gray-600 mb-4">Ambition is fuel, but without structure, it leads to chaos. Learn why writing down your goals is the key to turning your dreams into reality and avoiding the trap of being busy but not productive.</p>
+                        </div>
+                        <div class="p-6 pt-0 mt-auto">
+                            <a href="Blog Post 7.html" class="text-blue-900 font-medium hover:underline">Read More &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Post 8: Writing for Success -->
+                    <div class="bg-white rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col">
+                        <div class="p-6 flex-grow">
+                            <h3 class="text-2xl font-semibold text-gray-900 mb-2">How to Start Writing Your Way to Success</h3>
+                            <p class="text-gray-600 mb-4">Turn your ambitions into actionable strategies. This post provides a step-by-step guide on using a journal to set clear goals, track progress, and achieve success.</p>
+                        </div>
+                        <div class="p-6 pt-0 mt-auto">
+                            <a href="Blog Post 8.html" class="text-blue-900 font-medium hover:underline">Read More &rarr;</a>
                         </div>
                     </div>
                 </div>
