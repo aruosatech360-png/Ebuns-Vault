@@ -37,6 +37,13 @@
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
         }
+
+        // Show popup based on URL hash
+        window.addEventListener('DOMContentLoaded', (event) => {
+            if(window.location.hash === '#showGoalPopup') {
+                showPopup('goalPopup');
+            }
+        });
     </script>
 </head>
 <body class="bg-stone-50 text-stone-800">
@@ -174,9 +181,13 @@
                 <p>Ambition is powerful—but uncontrolled ambition is a trap. If you don’t write down your thoughts, goals, and strategies, you’ll keep chasing without ever catching anything. You must write. Write your ambitions. Write your goals. Write your action steps. Without writing, you will fail.</p>
                 <p>If you don’t know where to start, I’ve created a goal-setting template to help you put structure to your ambition.</p>
             </div>
-            <a href="https://drive.google.com/file/d/1CUIFeJ0dlh7LHgBKRdgL9Q-D5i-PSrAS/view?usp=drivesdk" target="_blank" class="mt-6 inline-block bg-amber-500 text-blue-900 font-bold px-8 py-3 rounded-full text-lg hover:bg-stone-200 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                Get The Template
-            </a>
+            <div class="mt-6 flex flex-wrap gap-4">
+                <a href="https://drive.google.com/file/d/1CUIFeJ0dlh7LHgBKRdgL9Q-D5i-PSrAS/view?usp=drivesdk" target="_blank" class="inline-block bg-amber-500 text-blue-900 font-bold px-8 py-3 rounded-full text-lg hover:bg-amber-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    Get The Template
+                </a>
+                <a href="Blog Post 7.html" class="inline-block bg-stone-200 text-blue-900 font-bold px-8 py-3 rounded-full text-lg hover:bg-stone-300 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">Read: Why Ambition Fails</a>
+                <a href="Blog Post 8.html" class="inline-block bg-stone-200 text-blue-900 font-bold px-8 py-3 rounded-full text-lg hover:bg-stone-300 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">Read: How to Succeed</a>
+            </div>
         </div>
     </div>
 
@@ -278,26 +289,6 @@
                         </div>
                         <div class="p-6 pt-0 mt-auto">
                             <a href="Blog Post 6.html" class="text-blue-900 font-medium hover:underline">Read More &rarr;</a>
-                        </div>
-                    </div>
-                    <!-- Post 7: Ambition -->
-                    <div class="bg-white rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col">
-                        <div class="p-6 flex-grow">
-                            <h3 class="text-2xl font-semibold text-gray-900 mb-2">Ambition Will Destroy You If You Don’t Write It Down</h3>
-                            <p class="text-gray-600 mb-4">Ambition is fuel, but without structure, it leads to chaos. Learn why writing down your goals is the key to turning your dreams into reality and avoiding the trap of being busy but not productive.</p>
-                        </div>
-                        <div class="p-6 pt-0 mt-auto">
-                            <a href="Blog Post 7.html" class="text-blue-900 font-medium hover:underline">Read More &rarr;</a>
-                        </div>
-                    </div>
-                    <!-- Post 8: Writing for Success -->
-                    <div class="bg-white rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col">
-                        <div class="p-6 flex-grow">
-                            <h3 class="text-2xl font-semibold text-gray-900 mb-2">How to Start Writing Your Way to Success</h3>
-                            <p class="text-gray-600 mb-4">Turn your ambitions into actionable strategies. This post provides a step-by-step guide on using a journal to set clear goals, track progress, and achieve success.</p>
-                        </div>
-                        <div class="p-6 pt-0 mt-auto">
-                            <a href="Blog Post 8.html" class="text-blue-900 font-medium hover:underline">Read More &rarr;</a>
                         </div>
                     </div>
                 </div>
