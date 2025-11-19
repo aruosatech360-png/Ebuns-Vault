@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Template for Students - Ebun's Vault</title>
+    <link rel="icon" href="favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="A guide and template for students to create their first CV. Learn what to include, common mistakes to avoid, and download a sample template.">
+    <meta name="keywords" content="CV template, student CV, resume template, Ebun's Vault, career guide">
+    <meta name="author" content="Ebun's Vault">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Basic animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fadeInUp {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+    </style>
+    <script>
+        // Simple popup logic
+        function showPopup(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+        function hidePopup(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+    </script>
+</head>
+<body class="bg-white text-stone-800">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html"><img src="Images/Ebun's Vault Logo.jpg" alt="Ebun's Vault Logo" class="h-12 w-auto"></a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="javascript:void(0);" onclick="showPopup('aboutPopup')" class="text-stone-600 hover:text-stone-900 transition-colors duration-300">About</a>
+                <a href="javascript:void(0);" onclick="showPopup('contactPopup')" class="text-stone-600 hover:text-stone-900 transition-colors duration-300">Contact</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button onclick="toggleMobileMenu()" class="md:hidden text-stone-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden pb-4">
+            <a href="javascript:void(0);" onclick="showPopup('aboutPopup'); toggleMobileMenu();" class="block py-2 px-6 text-stone-600 hover:text-stone-900 transition-colors duration-300">About</a>
+            <a href="javascript:void(0);" onclick="showPopup('contactPopup'); toggleMobileMenu();" class="block py-2 px-6 text-stone-600 hover:text-stone-900 transition-colors duration-300">Contact</a>
+        </div>
+    </header>
+
+    <!-- About Popup -->
+    <div id="aboutPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl shadow-xl p-8 max-w-2xl w-full relative mx-4">
+            <button onclick="hidePopup('aboutPopup')" class="absolute top-4 right-5 text-stone-500 hover:text-stone-900 text-3xl font-bold">&times;</button>
+            <h2 class="text-3xl font-bold mb-6 text-stone-900">About Ebun’s Vault</h2>
+            <p>Ebun’s Vault is a space built to help everyday people unlock the tools, strategies, and confidence they need to succeed online. We provide digital products designed for action—affiliate marketing guides, content creation kits, and step-by-step resources that make online business simple and achievable.</p>
+        </div>
+    </div>
+
+    <!-- Contact Popup -->
+    <div id="contactPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full relative mx-4">
+            <button onclick="hidePopup('contactPopup')" class="absolute top-4 right-5 text-stone-500 hover:text-stone-900 text-3xl font-bold">&times;</button>
+            <h2 class="text-3xl font-bold mb-6 text-stone-900">Contact Us</h2>
+            <p class="text-stone-600 text-lg">
+                Have questions or want to collaborate? Email us at <a href="mailto:ebunsvault365@gmail.com" class="text-stone-700 hover:underline">ebunsvault365@gmail.com</a> or DM us on WhatsApp <a href="https://wa.me/+2348039135420" target="_blank" class="text-stone-700 hover:underline">@Ebun's Vault</a>.
+            </p>
+        </div>
+    </div>
+
+    <main>
+        <!-- CV Template Section -->
+        <section id="cv-template" class="py-16 px-6 bg-white">
+            <div class="max-w-4xl mx-auto animate-fadeInUp text-left">
+                <h2 class="text-3xl font-bold text-center mb-10">CV Template for Students</h2>
+
+                <!-- What is a CV? -->
+                <div class="mb-8">
+                    <h3 class="text-2xl font-semibold mb-4">What is a CV?</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        A Curriculum Vitae (CV) is a short document that summarizes your personal details, education, skills, and any experience you have. Think of it as your professional introduction on paper. Its main purpose is to make a great first impression and secure you an interview.
+                    </p>
+                </div>
+
+                <!-- Common Misconceptions -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-semibold mb-4">Common Misconceptions About CVs</h3>
+                    <ul class="list-disc list-inside space-y-3 text-gray-600">
+                        <li><strong>"I need work experience to have a CV."</strong> Not true! For students, a CV can highlight school projects, volunteer work, skills, and academic achievements. It's about showing your potential.</li>
+                        <li><strong>"A longer CV is always better."</strong> False. For a student, a one-page CV is perfect. Recruiters appreciate concise, relevant information that is easy to read.</li>
+                        <li><strong>"One CV fits all jobs."</strong> It's much more effective to tailor your CV for each specific role you apply for, highlighting the skills and experiences that are most relevant to that job.</li>
+                    </ul>
+                </div>
+
+                <!-- CV Template -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-center">🧾 SAMPLE STUDENT CV TEMPLATE</h3>
+                    <div class="p-6 bg-gray-50 rounded-lg shadow-inner text-gray-800 dark:bg-gray-800 dark:text-gray-200">
+                        <h4 class="text-xl font-bold">[Your Full Name]</h4>
+                        <p>📞 Phone: [Your Phone Number]</p>
+                        <p>📧 Email: [Your Email Address]</p>
+                        <p>🌍 Location: [Your City/State]</p>
+
+                        <hr class="my-4 border-gray-300 dark:border-gray-600">
+
+                        <h4 class="text-lg font-semibold mt-4">Personal Statement</h4>
+                        <p class="italic text-gray-600 dark:text-gray-400 mt-1">A short paragraph about who you are, your strengths, and your career goals. Example: "I’m a motivated and enthusiastic student with strong communication and computer skills. I enjoy learning new things and working in a team. I’m eager to gain experience and contribute positively to any organization I join."</p>
+
+                        <h4 class="text-lg font-semibold mt-4">Education</h4>
+                        <p class="mt-1"><strong>[Name of School or Institution]</strong> – [Location]</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">📅 [Start Date] – [End Date or Present]</p>
+                        <p>Qualification: [Example: SSCE, OND, B.Sc in Computer Science (in view)]</p>
+                        <p>Notable Achievements (if any): [Example: Best ICT Student 2023, Member of Coding Club]</p>
+
+                        <h4 class="text-lg font-semibold mt-4">💼 Work Experience (if any)</h4>
+                        <p class="mt-1"><strong>[Job Title or Role]</strong> – [Company or Organization Name], [Location]</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">📅 [Start Date] – [End Date]</p>
+                        <ul class="list-disc list-inside ml-4 mt-1">
+                            <li>[Describe what you did or learned in short bullet points]</li>
+                            <li>[Example: Helped with computer setup for classes and assisted younger students with basic ICT tasks]</li>
+                        </ul>
+                        <p class="text-sm italic text-gray-600 dark:text-gray-400 mt-2">(If you don’t have work experience yet, you can list volunteer work, school projects, or group assignments that show responsibility or teamwork.)</p>
+
+                        <h4 class="text-lg font-semibold mt-4">Skills</h4>
+                        <ul class="list-disc list-inside ml-4 mt-1">
+                            <li>Basic computer skills (Microsoft Word, Excel, PowerPoint)</li>
+                            <li>Strong communication and teamwork skills</li>
+                            <li>Ability to learn quickly</li>
+                            <li>Problem-solving and time management</li>
+                            <li>[Add any other skills you have: typing, design, coding, social media management, etc.]</li>
+                        </ul>
+
+                        <h4 class="text-lg font-semibold mt-4">Hobbies & Interests</h4>
+                        <ul class="list-disc list-inside ml-4 mt-1">
+                            <li>Reading tech blogs and learning new digital skills</li>
+                            <li>Volunteering and community work</li>
+                            <li>Creative writing or graphic design</li>
+                            <li>Sports and teamwork activities</li>
+                        </ul>
+
+                        <h4 class="text-lg font-semibold mt-4">👥 References</h4>
+                        <p class="mt-1">Available on request.</p>
+
+                        <hr class="my-4 border-gray-300 dark:border-gray-600">
+
+                        <h4 class="text-lg font-semibold mt-4">✅ Tips Before Sending Your CV:</h4>
+                        <ul class="list-disc list-inside ml-4 mt-1">
+                            <li>Save it as “YourName_CV.pdf” before emailing (e.g., EbunAde_CV.pdf).</li>
+                            <li>Double-check your spelling and grammar.</li>
+                            <li>Use a simple, clean font (like Arial or Calibri).</li>
+                            <li>Keep it 1 page long if you’re a student.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-white py-8 mt-12">
+        <div class="container mx-auto text-center max-w-7xl px-6">
+            <p class="text-sm">&copy; 2025 Ebun's Vault. All rights reserved.</p>
+            <div class="mt-4 text-xs flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
+                <a href="Privacy Policy.html" class="hover:text-stone-300 mx-2">Privacy Policy</a>
+                <span class="text-stone-500 hidden md:block">|</span>
+                <a href="Terms of Service.html" class="hover:text-stone-300 mx-2">Terms of Service</a>
+                <span class="text-stone-500 hidden md:block">|</span>
+                <a href="Sales Page.html" class="hover:text-stone-300 mx-2">Affiliate Program</a>
+                <span class="text-stone-500 hidden md:block">|</span>
+                <a href="CV-Template.html" class="hover:text-stone-300 mx-2">CV Template</a>
+             </div>
+                <p class="text-xs mt-4 text-stone-400">Designed &amp; Developed by <a href="https://aruosatech360-png.github.io/Aruosa-Tech-Site/" target="_blank" rel="noopener noreferrer" class="hover:text-stone-300 transition-colors">Aruosa Tech</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>
