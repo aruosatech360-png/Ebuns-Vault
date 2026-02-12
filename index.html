@@ -8,6 +8,19 @@
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+        <!-- Tailwind config (add brand colors) -->
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: '#0a1f44',
+                            accent: '#0d6efd'
+                        }
+                    }
+                }
+            }
+        </script>
     
     <!-- Google Fonts (Poppins) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,6 +36,41 @@
         .hero-gradient {
             background: linear-gradient(135deg, #5D4037 0%, #3E2723 100%);
         }
+
+        /* Hero slideshow styles */
+        .hero-slideshow { position: absolute; inset: 0; overflow: hidden; }
+        .hero-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out; }
+        .hero-slide.show { opacity: 1; }
+        .hero-overlay { position: absolute; inset: 0; }
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+            /* Reduce hero height so it doesn't fill the entire viewport on small screens */
+            section.relative.h-screen { min-height: 50vh; height: auto; }
+
+            /* Make header touch targets larger and spacing friendlier on small screens */
+            header nav { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+            header nav a { font-size: 0.95rem; }
+
+            /* Reduce excessive vertical spacing from large paddings */
+            section[class*="py-"] { padding-top: 2rem; padding-bottom: 2rem; }
+
+            /* Make product images and card content more compact */
+            img[class*="h-48"] { height: 8rem !important; }
+
+            /* Reduce heading sizes for mobile */
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.25rem; }
+
+            /* Reduce popup padding and max-height for easier viewing */
+            .fixed > div { padding: 1.25rem; max-height: 85vh; overflow-y: auto; }
+
+            /* Hero content tweaks to avoid squashed text on small screens */
+            .hero-content-wrapper { align-items: flex-start !important; padding-top: 4.5rem; padding-bottom: 2rem; }
+            .hero-content h1 { font-size: 1.5rem !important; line-height: 1.12 !important; }
+            .hero-content p { font-size: 0.95rem !important; line-height: 1.45 !important; max-width: 100% !important; }
+            .hero-content .flex { flex-direction: column; gap: 0.5rem; }
+            .hero-content-wrapper .container { padding-left: 1rem; padding-right: 1rem; }
+        }
     </style>
     <script>
         // Simple popup logic
@@ -32,10 +80,14 @@
         function hidePopup(id) {
             document.getElementById(id).classList.add('hidden');
         }
-        // Mobile menu toggle
+        // Mobile menu toggle (disable body scroll when open)
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
+            const btn = document.querySelector('button[aria-controls="mobile-menu"]');
+            const isHidden = menu.classList.toggle('hidden');
+            const open = !menu.classList.contains('hidden');
+            document.documentElement.style.overflow = open ? 'hidden' : '';
+            if(btn) btn.setAttribute('aria-expanded', open);
         }
 
         // Show popup based on URL hash
@@ -44,32 +96,70 @@
                 showPopup('goalPopup');
             }
         });
+
+        // Hero slideshow: expects images with class 'hero-slide'
+        (function() {
+            let slideIndex = 0;
+            const changeDelay = 5000; // ms between slides
+            function showNextSlide() {
+                const slides = document.querySelectorAll('.hero-slide');
+                if (!slides || slides.length === 0) return;
+                slides.forEach((s, i) => s.classList.remove('show'));
+                slideIndex = (slideIndex + 1) % slides.length;
+                slides[slideIndex].classList.add('show');
+            }
+            window.addEventListener('load', () => {
+                const slides = document.querySelectorAll('.hero-slide');
+                if (!slides || slides.length === 0) return;
+                // show first slide immediately
+                slides[0].classList.add('show');
+                setInterval(showNextSlide, changeDelay);
+            });
+        })();
     </script>
 </head>
 <body class="bg-white text-stone-800">
 
-    <!-- Header & Navigation -->
-    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html"><img src="Images/Ebun's Vault Logo.jpg" alt="Ebun's Vault Logo" class="h-12 w-auto"></a>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="javascript:void(0);" onclick="showPopup('aboutPopup')" class="text-stone-600 hover:text-stone-900 transition-colors duration-300">About</a>
-                <a href="javascript:void(0);" onclick="showPopup('contactPopup')" class="text-stone-600 hover:text-stone-900 transition-colors duration-300">Contact</a>
-                <a href="https://chat.whatsapp.com/BW3Vp0qxHCDI1a8h9DQmHA?mode=wwc" target="_blank" class="text-stone-600 hover:text-stone-900 transition-colors duration-300">Join WhatsApp Group</a>
+    <!-- Header & Navigation (clean, accessible) -->
+    <header class="fixed top-0 left-0 w-full z-30">
+        <nav class="container mx-auto px-6 py-6 flex items-center justify-between text-white" role="navigation" aria-label="Main Navigation">
+            <div class="flex items-center gap-4">
+                    <a href="index.html" class="flex items-center gap-3">
+                    <img src="Images/Ebun's Vault Logo.jpg" alt="Ebun's Vault Logo" class="h-10 w-auto rounded-md shadow-sm" loading="lazy" decoding="async">
+                    <span class="font-bold text-white text-lg">Ebun’s Vault</span>
+                </a>
             </div>
-            
+
+            <div class="hidden md:flex items-center gap-8 uppercase tracking-wider text-sm">
+                <a href="javascript:void(0);" onclick="showPopup('aboutPopup')" class="hover:text-accent">About</a>
+                <a href="Blog Post 6.html" class="hover:text-accent">Blog</a>
+                <a href="javascript:void(0);" onclick="showPopup('contactPopup')" class="hover:text-accent">Contact</a>
+                <a href="Sales Page.html" class="ml-2 inline-block bg-transparent border border-white text-white font-medium px-4 py-2 rounded-full hover:bg-white hover:text-primary transition">Join Our Affiliate Program</a>
+            </div>
+
             <!-- Mobile Menu Button -->
-            <button onclick="toggleMobileMenu()" class="md:hidden text-stone-800">
+            <button onclick="toggleMobileMenu()" aria-controls="mobile-menu" aria-expanded="false" class="md:hidden text-white focus:outline-none" aria-label="Toggle menu">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </button>
         </nav>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden pb-4">
-            <a href="javascript:void(0);" onclick="showPopup('aboutPopup'); toggleMobileMenu();" class="block py-2 px-6 text-stone-600 hover:text-stone-900 transition-colors duration-300">About</a>
-            <a href="javascript:void(0);" onclick="showPopup('contactPopup'); toggleMobileMenu();" class="block py-2 px-6 text-stone-600 hover:text-stone-900 transition-colors duration-300">Contact</a>
-            <a href="https://chat.whatsapp.com/BW3Vp0qxHCDI1a8h9DQmHA?mode=wwc" target="_blank" class="block py-2 px-6 text-stone-600 hover:text-stone-900 transition-colors duration-300">Join WhatsApp Group</a>
+
+        <!-- Mobile Menu (full-screen overlay on small screens) -->
+        <div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-40 bg-white p-6 overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="Images/Ebun's Vault Logo.jpg" alt="Ebun's Vault Logo" class="h-10 w-auto rounded-md shadow-sm" loading="lazy" decoding="async">
+                    <span class="font-bold text-stone-900">Ebun’s Vault</span>
+                </a>
+                <button aria-label="Close menu" onclick="toggleMobileMenu()" class="text-stone-700 text-2xl">&times;</button>
+            </div>
+            <div class="px-2 py-2 flex flex-col gap-3 text-stone-700">
+                <a href="javascript:void(0);" onclick="showPopup('aboutPopup'); toggleMobileMenu();" class="py-3 text-lg rounded-md hover:bg-stone-100 px-3">About</a>
+                <a href="#blog" onclick="toggleMobileMenu()" class="py-3 text-lg rounded-md hover:bg-stone-100 px-3">Blog</a>
+                <a href="javascript:void(0);" onclick="showPopup('contactPopup'); toggleMobileMenu();" class="py-3 text-lg rounded-md hover:bg-stone-100 px-3">Contact</a>
+                <a href="https://chat.whatsapp.com/BW3Vp0qxHCDI1a8h9DQmHA?mode=wwc" target="_blank" class="py-3 text-lg rounded-md hover:bg-stone-100 px-3">Community</a>
+            </div>
         </div>
     </header>
 
@@ -194,99 +284,120 @@
     </div>
 
     <main>
-        <!-- Hero Section -->
-        <section class="hero-gradient text-white">
-            <div class="container mx-auto px-6 py-24 md:py-32 text-center">
-                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4">Digital Marketing, Redefined. Smarter Strategies for Real Growth.</h1>
-                <p class="text-lg md:text-xl text-stone-300 max-w-3xl mx-auto mb-8">From "What If?" to "What's Next?" We Make Digital Marketing Work for You.</p>
+        <!-- Hero Section (slideshow) -->
+        <section class="relative h-screen">
+            <!-- Slideshow images: place your files in the site root or Images/ and name them hero1.jpg, hero2.jpg, hero3.jpg -->
+            <div class="hero-slideshow" aria-hidden="true">
+                <img src="bg01.jpg" alt="" class="hero-slide" loading="lazy" decoding="async">
+                <img src="bg02.jpg" alt="" class="hero-slide" loading="lazy" decoding="async">
+                <img src="bg03.jpg" alt="" class="hero-slide" loading="lazy" decoding="async">
+                <img src="bg05.jpg" alt="" class="hero-slide" loading="lazy" decoding="async"> 
+                <img src="bg06.jpg" alt="" class="hero-slide" loading="lazy" decoding="async">
+                <img src="bg07.jpeg" alt="" class="hero-slide" loading="lazy" decoding="async">
+                <img src="bg08.jpeg" alt="" class="hero-slide" loading="lazy" decoding="async">
+                <img src="bg09.jpeg" alt="" class="hero-slide" loading="lazy" decoding="async">
+                <img src="bg010.jpg" alt="" class="hero-slide" loading="lazy" decoding="async">
+            </div>
+
+            <div class="container mx-auto px-6 h-full relative z-10 flex items-center hero-content-wrapper">
+                <div class="w-full md:w-7/12 hero-content">
+                    <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-4 text-white">WELCOME TO EBUN’S VAULT!🔐</h1>
+                    <p class="text-stone-200 text-lg md:text-xl max-w-xl mb-6">Ebun’s Vault is a curated library of practical digital marketing guides, templates, and tools designed to help beginners and creators learn what actually works — without hype or guesswork.</p>
+                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                        <a href="#digital-products" class="inline-block bg-white text-stone-900 font-semibold px-6 py-3 rounded-full shadow hover:shadow-lg transition">Explore Guides</a>
+                        <a href="https://chat.whatsapp.com/BW3Vp0qxHCDI1a8h9DQmHA?mode=wwc" target="_blank" class="inline-block bg-transparent border border-white text-white font-semibold px-6 py-3 rounded-full hover:bg-white/10 transition">Join Community</a>
+                    </div>
+                    <p class="text-stone-300 mt-4 text-sm">Trusted by creators and students — practical, where knowledge is for everyone.</p>
+                </div>
             </div>
         </section>
 
         <!-- Digital Products Section -->
-        <section id="digital-products" class="bg-stone-100 py-20">
+        <section id="digital-products" class="bg-stone-100 py-10">
             <div class="container mx-auto px-6">
                 <div class="text-center">
                     <h2 class="text-3xl md:text-4xl font-bold mb-4 text-stone-900">Explore Our Digital Guides</h2>
                     <p class="text-stone-600 max-w-3xl mx-auto mb-12 text-lg">Actionable guides and toolkits to help you succeed in the digital world.</p>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     <!-- Product 1: UGC Handbook -->
-                    <div class="group relative rounded-2xl shadow-lg overflow-hidden">
-                        <img src="The Formula For Viral UGC Content.jpg" alt="UGC Handbook" class="w-full object-cover aspect-[4/3] transition-transform duration-300 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-6">
-                            <h3 class="text-xl font-bold mb-2 text-white">The UGC Handbook</h3>
-                            <p class="text-stone-200 mb-4 max-w-xs mx-auto">Your step-by-step guide to building a successful User-Generated Content business.</p>
-                            <button onclick="showPopup('ugcPopup')" class="mt-4 bg-stone-800 text-white font-semibold px-6 py-2 rounded-full hover:bg-stone-700 transition-all duration-300">Learn More</button>
+                    <div class="bg-white p-4 rounded-2xl border hover:border-accent transition flex flex-col">
+                        <img src="The Formula For Viral UGC Content.jpg" alt="UGC Handbook" class="w-full h-28 md:h-36 object-cover rounded-md mb-3" loading="lazy" decoding="async">
+                        <h3 class="text-lg font-bold mb-1 text-stone-900">The UGC Handbook</h3>
+                        <p class="text-stone-600 mb-3 text-sm">Your step-by-step guide to building a successful User-Generated Content business.</p>
+                        <div class="mt-auto">
+                            <button onclick="showPopup('ugcPopup')" class="inline-block px-4 py-2 border border-accent text-accent rounded-full hover:bg-accent/10 transition">Learn More</button>
                         </div>
                     </div>
 
                     <!-- Product 2: Affiliate Marketing -->
-                    <div class="group relative rounded-2xl shadow-lg overflow-hidden">
-                        <img src="Affiliate Marketing.jpg" alt="The Truth About Affiliate Marketing" class="w-full object-cover aspect-[4/3] transition-transform duration-300 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-6">
-                            <h3 class="text-xl font-bold mb-2 text-white">The Truth About Affiliate Marketing</h3>
-                            <p class="text-stone-200 mb-4 max-w-xs mx-auto">Uncover the secrets to successful affiliate marketing, from finding products to driving sales.</p>
-                            <button onclick="showPopup('affiliatePopup')" class="mt-4 bg-stone-800 text-white font-semibold px-6 py-2 rounded-full hover:bg-stone-700 transition-all duration-300">Learn More</button>
+                    <div class="bg-white p-4 rounded-2xl border hover:border-accent transition flex flex-col">
+                        <img src="Affiliate Marketing.jpg" alt="The Truth About Affiliate Marketing" class="w-full h-28 md:h-36 object-cover rounded-md mb-3" loading="lazy" decoding="async">
+                        <h3 class="text-lg font-bold mb-1 text-stone-900">The Truth About Affiliate Marketing</h3>
+                        <p class="text-stone-600 mb-3 text-sm">Uncover the secrets to successful affiliate marketing, from finding products to driving sales.</p>
+                        <div class="mt-auto">
+                            <button onclick="showPopup('affiliatePopup')" class="inline-block px-4 py-2 border border-accent text-accent rounded-full hover:bg-accent/10 transition">Learn More</button>
                         </div>
                     </div>
 
                     <!-- Product 3: ChatGPT Prompts -->
-                    <div class="group relative rounded-2xl shadow-lg overflow-hidden">
-                        <img src="Chat gpt prompt for af.jpg" alt="ChatGPT Prompts for Digital Marketing" class="w-full object-cover aspect-[4/3] transition-transform duration-300 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-6">
-                            <h3 class="text-xl font-bold mb-2 text-white">ChatGPT Prompts for Digital Marketing</h3>
-                            <p class="text-stone-200 mb-4 max-w-xs mx-auto">Supercharge your marketing with expertly crafted ChatGPT prompts for content, ads, and more.</p>
-                            <button onclick="showPopup('chatgptPopup')" class="mt-4 bg-stone-800 text-white font-semibold px-6 py-2 rounded-full hover:bg-stone-700 transition-all duration-300">Learn More</button>
+                    <div class="bg-white p-4 rounded-2xl border hover:border-accent transition flex flex-col">
+                        <img src="Chat gpt prompt for af.jpg" alt="ChatGPT Prompts for Digital Marketing" class="w-full h-28 md:h-36 object-cover rounded-md mb-3" loading="lazy" decoding="async">
+                        <h3 class="text-lg font-bold mb-1 text-stone-900">ChatGPT Prompts for Digital Marketing</h3>
+                        <p class="text-stone-600 mb-3 text-sm">Supercharge your marketing with expertly crafted ChatGPT prompts for content, ads, and more.</p>
+                        <div class="mt-auto">
+                            <button onclick="showPopup('chatgptPopup')" class="inline-block px-4 py-2 border border-accent text-accent rounded-full hover:bg-accent/10 transition">Learn More</button>
                         </div>
                     </div>
 
                     <!-- Product 4: Passion to Income -->
-                    <div class="group relative rounded-2xl shadow-lg overflow-hidden">
-                        <img src="Passion into profits.jpg" alt="Turn Your Passion to Income Blueprint" class="w-full object-cover aspect-[4/3] transition-transform duration-300 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-6">
-                            <h3 class="text-xl font-bold mb-2 text-white">Turn Your Passion to Income Blueprint</h3>
-                            <p class="text-stone-200 mb-4 max-w-xs mx-auto">A complete blueprint to monetize your hobbies and skills in the digital age.</p>
-                            <button onclick="showPopup('passionPopup')" class="mt-4 bg-stone-800 text-white font-semibold px-6 py-2 rounded-full hover:bg-stone-700 transition-all duration-300">Learn More</button>
+                    <div class="bg-white p-4 rounded-2xl border hover:border-accent transition flex flex-col">
+                        <img src="Passion into profits.jpg" alt="Turn Your Passion to Income Blueprint" class="w-full h-28 md:h-36 object-cover rounded-md mb-3" loading="lazy" decoding="async">
+                        <h3 class="text-lg font-bold mb-1 text-stone-900">Turn Your Passion to Income Blueprint</h3>
+                        <p class="text-stone-600 mb-3 text-sm">A complete blueprint to monetize your hobbies and skills in the digital age.</p>
+                        <div class="mt-auto">
+                            <button onclick="showPopup('passionPopup')" class="inline-block px-4 py-2 border border-accent text-accent rounded-full hover:bg-accent/10 transition">Learn More</button>
                         </div>
                     </div>
 
                     <!-- Product 5: School Guide -->
-                    <div class="group relative rounded-2xl shadow-lg overflow-hidden">
-                        <img src="how-to-survive-and-shine.jpeg" alt="How to Survive and Shine in Secondary School" class="w-full object-cover aspect-[4/3] transition-transform duration-300 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-6">
-                            <h3 class="text-xl font-bold mb-2 text-white">Survive & Shine in Secondary School</h3>
-                            <p class="text-stone-200 mb-4 max-w-xs mx-auto">The ultimate WAEC + JAMB edition with ready-to-use notes and study strategies.</p>
-                            <button onclick="showPopup('schoolPopup')" class="mt-4 bg-stone-800 text-white font-semibold px-6 py-2 rounded-full hover:bg-stone-700 transition-all duration-300">Learn More</button>
+                    <div class="bg-white p-4 rounded-2xl border hover:border-accent transition flex flex-col">
+                        <img src="how-to-survive-and-shine.jpeg" alt="How to Survive and Shine in Secondary School" class="w-full h-28 md:h-36 object-cover rounded-md mb-3" loading="lazy" decoding="async">
+                        <h3 class="text-lg font-bold mb-1 text-stone-900">Survive & Shine in Secondary School</h3>
+                        <p class="text-stone-600 mb-3 text-sm">The ultimate WAEC + JAMB edition with ready-to-use notes and study strategies.</p>
+                        <div class="mt-auto">
+                            <button onclick="showPopup('schoolPopup')" class="inline-block px-4 py-2 border border-accent text-accent rounded-full hover:bg-accent/10 transition">Learn More</button>
                         </div>
                     </div>
 
                     <!-- Product 6: Goal-Setting Template -->
-                    <div class="group relative rounded-2xl shadow-lg overflow-hidden">
-                        <img src="Goal setting.jpg" alt="Goal-Setting Template" class="w-full object-cover aspect-[4/3] transition-transform duration-300 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-6">
-                            <h3 class="text-xl font-bold mb-2 text-white">Goal-Setting Template</h3>
-                            <p class="text-stone-200 mb-4 max-w-xs mx-auto">A template to help you structure your ambition and turn goals into reality.</p>
-                            <button onclick="showPopup('goalPopup')" class="mt-4 bg-stone-800 text-white font-semibold px-6 py-2 rounded-full hover:bg-stone-700 transition-all duration-300">Learn More</button>
+                    <div class="bg-white p-4 rounded-2xl border hover:border-accent transition flex flex-col">
+                        <img src="Goal setting.jpg" alt="Goal-Setting Template" class="w-full h-28 md:h-36 object-cover rounded-md mb-3" loading="lazy" decoding="async">
+                        <h3 class="text-lg font-bold mb-1 text-stone-900">Goal-Setting Template</h3>
+                        <p class="text-stone-600 mb-3 text-sm">A template to help you structure your ambition and turn goals into reality.</p>
+                        <div class="mt-auto">
+                            <button onclick="showPopup('goalPopup')" class="inline-block px-4 py-2 border border-accent text-accent rounded-full hover:bg-accent/10 transition">Learn More</button>
                         </div>
                     </div>
-                        <!-- Product 7: AI Monetization -->
-                        <div class="group relative rounded-2xl shadow-lg overflow-hidden">
-                            <img src="Ai monetization.jpeg" alt="AI Monetization" class="w-full object-contain object-center transition-transform duration-300 group-hover:scale-105 bg-white p-4 h-56 md:h-48 lg:h-60">
-                            <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-6">
-                                <h3 class="text-xl font-bold mb-2 text-white">AI Monetization</h3>
-                                <p class="text-stone-200 mb-4 max-w-xs mx-auto">Learn the skills and execution steps to start turning AI tools into real income.</p>
-                                <button onclick="showPopup('aiPopup')" class="mt-4 bg-stone-800 text-white font-semibold px-6 py-2 rounded-full hover:bg-stone-700 transition-all duration-300">Learn More</button>
-                            </div>
+
+                    <!-- Product 7: AI Monetization -->
+                    <div class="bg-white p-4 rounded-2xl border hover:border-accent transition flex flex-col">
+                        <img src="Ai monetization.jpeg" alt="AI Monetization" class="w-full h-28 md:h-36 object-contain rounded-md mb-3 bg-white p-3" loading="lazy" decoding="async">
+                        <h3 class="text-lg font-bold mb-1 text-stone-900">AI Monetization</h3>
+                        <p class="text-stone-600 mb-3 text-sm">Learn the skills and execution steps to start turning AI tools into real income.</p>
+                        <div class="mt-auto">
+                            <button onclick="showPopup('aiPopup')" class="inline-block px-4 py-2 border border-accent text-accent rounded-full hover:bg-accent/10 transition">Learn More</button>
                         </div>
+                    </div>
 
                     <!-- Product 8: CV Template -->
-                    <div class="group relative rounded-2xl shadow-lg overflow-hidden">
-                        <img src="Simple-Student-CV-Template-edit-online-1.jpg" alt="CV Template for Students" class="w-full object-cover aspect-[4/3] transition-transform duration-300 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-6">
-                            <h3 class="text-xl font-bold mb-2 text-white">CV Template for Students</h3>
-                            <p class="text-stone-200 mb-4 max-w-xs mx-auto">A complete guide and template to help students create a professional CV.</p>
-                            <a href="CV-Template.html" class="mt-4 bg-stone-800 text-white font-semibold px-6 py-2 rounded-full hover:bg-stone-700 transition-all duration-300">View Template</a>
+                    <div class="bg-white p-4 rounded-2xl border hover:border-accent transition flex flex-col">
+                        <img src="Simple-Student-CV-Template-edit-online-1.jpg" alt="CV Template for Students" class="w-full h-28 md:h-36 object-cover rounded-md mb-3" loading="lazy" decoding="async">
+                        <h3 class="text-lg font-bold mb-1 text-stone-900">CV Template for Students</h3>
+                        <p class="text-stone-600 mb-3 text-sm">A complete guide and template to help students create a professional CV.</p>
+                        <div class="mt-auto">
+                            <a href="CV-Template.html" class="inline-block px-4 py-2 border border-accent text-accent rounded-full hover:bg-accent/10 transition">View Template</a>
                         </div>
                     </div>
                 </div>
@@ -314,6 +425,34 @@
                     </div>
             </div>
         </div>
+
+        <!-- Events & Seminars Section -->
+        <section id="events" class="bg-white py-10">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-2 text-stone-900">Events & Seminars</h2>
+                    <p class="text-stone-600 max-w-2xl mx-auto">Monthly seminars and workshops — join us live or read short excerpts from past sessions.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <!-- January excerpt -->
+                    <article class="bg-stone-100 p-4 rounded-2xl border">
+                        <img src="Mindset shift.jpeg" alt="January Seminar — Mindset Shift" class="w-full h-36 md:h-44 object-cover rounded-md mb-3" loading="lazy" decoding="async">
+                        <h3 class="font-bold text-lg text-stone-900">January 2026 — Mindset Shift</h3>
+                        <p class="text-stone-700 text-sm mt-2">Excerpt: True growth starts with the right mindset. In January’s session we covered clarity, deliberate practice, and simple action plans that move you from dreaming to doing. Small habits, consistent execution, and reframing failures as feedback were central themes.</p>
+                        <div class="mt-3 flex items-center gap-3">
+                            <a href="January-Event.html" class="text-stone-900 font-semibold hover:underline">Read full excerpt</a>
+                        </div>
+                    </article>
+
+                    <!-- View All Events CTA -->
+                    <article class="bg-stone-100 p-4 rounded-2xl border flex flex-col items-center justify-center text-center">
+                        <p class="text-stone-700 font-semibold mb-3">See all events and register for February</p>
+                        <a href="Events.html" class="bg-stone-800 text-white px-4 py-2 rounded-full font-semibold hover:bg-stone-700 transition">View All Events</a>
+                    </article>
+                </div>
+            </div>
+        </section>
 
         <!-- Blogs & Articles Section -->
         <section id="blogs-articles" class="bg-white py-20">
@@ -360,88 +499,97 @@
             </div>
         </section>
 
-        <!-- Knowledge Section -->
-        <section id="knowledge" class="flex flex-col md:flex-row items-center justify-center py-12 md:py-16 mt-12 bg-white rounded-3xl shadow-md mb-12 gap-8">
-            <div class="text-center md:text-left max-w-xl">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">What Our Followers Gain</h2>
-                <ul class="list-disc list-inside text-left mb-8 space-y-3">
-                    <li class="text-gray-700"><span class="font-bold">Free Guides & Resources</span> – Practical step-by-step guides, cheat sheets, and templates to help you start affiliate marketing and digital entrepreneurship with confidence.</li>
-                    <li class="text-gray-700"><span class="font-bold">Exclusive Giveaways</span> – Access to free digital tools, mini-courses, and content prompts designed to make your journey easier and faster.</li>
-                    <li class="text-gray-700"><span class="font-bold">Proven Tips & Hacks</span> – Simple, beginner-friendly strategies for content creation, affiliate sales, and using AI tools like ChatGPT.</li>
-                    <li class="text-gray-700"><span class="font-bold">Motivation & Support</span> – Daily inspiration and real talk to keep you consistent and confident, even when starting feels overwhelming.</li>
-                    <li class="text-gray-700"><span class="font-bold">Community Vibes</span> – A supportive space where students, 9–5 workers, and aspiring entrepreneurs can learn, grow, and share wins together.</li>
-                    <li class="text-gray-700"><span class="font-bold">Extra Perks for Subscribers</span> – By joining our mailing list, you’ll unlock exclusive free guides, early access to giveaways, and insider tips you won’t find anywhere else.</li>
-                </ul>
+        <!-- Testimonials (social proof) -->
+        <section id="testimonials" class="bg-white py-16">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold text-stone-900 mb-6">What People Say</h2>
+                <p class="text-stone-600 max-w-2xl mx-auto mb-8">Real results from students and creators using our guides and templates.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    <div class="p-6 rounded-2xl shadow-sm border">
+                        <p class="text-stone-700 mb-4">"I used the UGC handbook and landed my first paid pitch within a week. Clear, practical and no fluff."</p>
+                        <p class="font-semibold text-sm text-stone-900">— Tobi, Creator</p>
+                    </div>
+                    <div class="p-6 rounded-2xl shadow-sm border">
+                        <p class="text-stone-700 mb-4">"The AI monetization guide saved me hours. I launched a micro-service and made my first sale in 3 days."</p>
+                        <p class="font-semibold text-sm text-stone-900">— Amaka, Freelance Marketer</p>
+                    </div>
+                    <div class="p-6 rounded-2xl shadow-sm border">
+                        <p class="text-stone-700 mb-4">"Practical templates that you can actually use. The prompt packs are pure gold."</p>
+                        <p class="font-semibold text-sm text-stone-900">— Daniel, Student</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Knowledge Section (responsive grid for all screens) -->
+        <section id="knowledge" class="bg-white py-8 md:py-12 mt-12 mb-12">
+            <div class="container mx-auto px-6">
+                <div class="max-w-6xl mx-auto bg-white rounded-3xl shadow-md p-6 md:p-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">What Our Followers Gain</h2>
+                            <p class="text-stone-600 mb-4">Practical resources, community support and proven tactics that help creators and beginners make real progress online.</p>
+                        </div>
+
+                        <div>
+                            <ul class="list-disc list-inside space-y-3 text-stone-700 text-sm md:text-base">
+                                <li><span class="font-bold">Free Guides & Resources</span> – Practical step-by-step guides, cheat sheets, and templates to help you start affiliate marketing and digital entrepreneurship with confidence.</li>
+                                <li><span class="font-bold">Exclusive Giveaways</span> – Access to free digital tools, mini-courses, and content prompts designed to make your journey easier and faster.</li>
+                                <li><span class="font-bold">Proven Tips & Hacks</span> – Simple, beginner-friendly strategies for content creation, affiliate sales, and using AI tools like ChatGPT.</li>
+                                <li><span class="font-bold">Motivation & Support</span> – Daily inspiration and real talk to keep you consistent and confident, even when starting feels overwhelming.</li>
+                                <li><span class="font-bold">Community Vibes</span> – A supportive space where students, 9–5 workers, and aspiring entrepreneurs can learn, grow, and share wins together.</li>
+                                <li><span class="font-bold">Extra Perks for Subscribers</span> – By joining our mailing list, you’ll unlock exclusive free guides, early access to giveaways, and insider tips you won’t find anywhere else.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section class="mb-8">
   </section>
 
-         <!-- About / CTA Section -->
-        <section id="partner" class="bg-stone-900 text-white">
-            <div class="container mx-auto px-6 py-20 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Join Our Affiliate Program</h2>
-                <p class="text-stone-300 max-w-3xl mx-auto mb-8 text-lg">We are looking for partners who share our vision. By joining our affiliate program, you can help us reach more aspiring creators while building a solid income stream for yourself.</p>
-                <a href="Sales Page.html" class="bg-white text-stone-900 font-bold px-8 py-4 rounded-full text-lg hover:bg-stone-200 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                    Let's Build Together
-                </a>
-            </div>
-        </section>
-        
-        <section class="text-center py-12 md:py-16 mt-12 bg-white rounded-3xl shadow-md">
-            <h2 class="text-3xl font-bold text-gray-900 mb-4">Stay Ahead of the Curve</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto mb-6">Join our newsletter to receive the latest insights and tips on UGC and other related guides to help you succeed.</p>
-            
-            <form action="https://formspree.io/f/mgvlpqzr" method="POST" class="flex flex-col sm:flex-row justify-center items-center gap-4 px-4">
-                <input type="email" name="email" placeholder="Enter your email address" class="w-full sm:w-80 px-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-stone-500 transition-all duration-200" required>
-                <button type="submit" class="w-full sm:w-auto bg-stone-800 text-white font-bold py-3 px-8 rounded-full hover:bg-stone-900 transition-colors duration-200">
-                    Subscribe
-                </button>
-            </form>
-            
-        </section>
     </main>
 
      <!-- Footer -->
     <footer class="bg-stone-900 text-white">
-        <div class="container mx-auto px-6 py-8 text-700 text-white py-8 mt-12">
-        <div class="container mx-auto text-center max-w-7xl">
-            <p class="text-sm">&copy; 2025  Ebun's Vault. All rights reserved.</p>
-            <div class="mt-4 text-xs flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
-                <a href="Privacy Policy.html" class="hover:text-stone-300 mx-2">Privacy Policy</a>
-                <span class="text-stone-500 hidden md:block">|</span>
-                <a href="Terms of Service.html" class="hover:text-stone-300 mx-2">Terms of Service</a>
-                <span class="text-stone-500 hidden md:block">|</span>
-                <a href="Sales Page.html" class="hover:text-stone-300 mx-2">Affiliate Program</a>
+        <div class="container mx-auto px-6 py-12">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                <div>
+                    <a href="index.html" class="flex items-center gap-3">
+                        <img src="Images/Ebun's Vault Logo.jpg" alt="Ebun's Vault Logo" class="h-10 w-auto rounded-md" loading="lazy" decoding="async">
+                        <span class="font-bold text-white">Ebun's Vault</span>
+                    </a>
+                    <p class="text-stone-400 text-sm mt-4">Practical digital guides, templates and prompt packs for creators and beginners.</p>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <h3 class="font-semibold">Quick Links</h3>
+                    <a href="#digital-products" class="text-stone-400 text-sm hover:text-white">Guides</a>
+                    <a href="Sales Page.html" class="text-stone-400 text-sm hover:text-white">Affiliate Program</a>
+                    <a href="Privacy Policy.html" class="text-stone-400 text-sm hover:text-white">Privacy Policy</a>
+                    <a href="Terms of Service.html" class="text-stone-400 text-sm hover:text-white">Terms of Service</a>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold">Newsletter</h3>
+                    <p class="text-stone-400 text-sm mb-3">Get concise guides, freebies and updates.</p>
+                    <form action="https://formspree.io/f/mgvlpqzr" method="POST" class="flex gap-2">
+                        <input type="email" name="email" placeholder="Your email" class="w-full px-3 py-2 rounded-full text-stone-900" required>
+                        <button type="submit" class="bg-stone-800 px-4 py-2 rounded-full">Join</button>
+                    </form>
+                    <div class="mt-4 flex gap-4">
+                        <a href="https://x.com/ebunsvault365" target="_blank" class="text-stone-400 hover:text-white">X</a>
+                        <a href="https://www.instagram.com/ebunsvault365/" target="_blank" class="text-stone-400 hover:text-white">Instagram</a>
+                        <a href="https://chat.whatsapp.com/BW3Vp0qxHCDI1a8h9DQmHA?mode=wwc" target="_blank" class="text-stone-400 hover:text-white">WhatsApp</a>
+                    </div>
+                </div>
             </div>
-            <div class="mt-6 flex justify-center gap-6">
-                <a href="https://x.com/ebunsvault365" target="_blank" aria-label="Twitter" class="hover:text-stone-300 transition-colors">
-                    <!-- Twitter SVG -->
-                    <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M22.46 6c-.77.35-1.6.59-2.47.7a4.3 4.3 0 0 0 1.88-2.37 8.59 8.59 0 0 1-2.72 1.04A4.28 4.28 0 0 0 16.11 4c-2.37 0-4.29 1.92-4.29 4.29 0 .34.04.67.11.99A12.13 12.13 0 0 1 3.15 5.13a4.29 4.29 0 0 0 1.33 5.72c-.7-.02-1.36-.21-1.93-.53v.05c0 2.01 1.43 3.69 3.33 4.07-.35.1-.72.16-1.1.16-.27 0-.53-.03-.78-.07.53 1.65 2.07 2.85 3.89 2.88A8.6 8.6 0 0 1 2 19.54a12.13 12.13 0 0 0 6.56 1.92c7.88 0 12.2-6.53 12.2-12.2 0-.19 0-.37-.01-.56A8.7 8.7 0 0 0 24 4.59a8.48 8.48 0 0 1-2.54.7z"/>
-                    </svg>
-                </a>
-                <a href="https://www.facebook.com/profile.php?id=61580396167130" target="_blank" aria-label="Facebook" class="hover:text-stone-300 transition-colors">
-                    <!-- Facebook SVG -->
-                    <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M22.675 0h-21.35C.595 0 0 .592 0 1.326v21.348C0 23.408.595 24 1.326 24h11.495v-9.294H9.691v-3.622h3.13V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.405 24 24 23.408 24 22.674V1.326C24 .592 23.405 0 22.675 0"/>
-                    </svg>
-                </a>
-                <a href="https://www.instagram.com/ebunsvault365/" target="_blank" aria-label="Instagram" class="hover:text-stone-300 transition-colors">
-                    <!-- Instagram SVG -->
-                    <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.974 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.974.974-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.974-.974-1.246-2.242-1.308-3.608C2.175 15.647 2.163 15.267 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.974-.974 2.242-1.246 3.608-1.308C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.013 7.052.072 5.771.131 4.659.417 3.678 1.398c-.98.98-1.267 2.092-1.326 3.374C2.013 5.741 2 6.151 2 12c0 5.849.013 6.259.072 7.538.059 1.282.346 2.394 1.326 3.374.98.98 2.092 1.267 3.374 1.326C8.741 23.987 9.151 24 12 24s3.259-.013 4.538-.072c1.282-.059 2.394-.346 3.374-1.326.98-.98 1.267-2.092 1.326-3.374.059-1.279.072-1.689.072-7.538 0-5.849-.013-6.259-.072-7.538-.059-1.282-.346-2.394-1.326-3.374-.98-.98-2.092-1.267-3.374-1.326C15.259.013 14.849 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
-                    </svg>
-                </a>
-                <a href="https://chat.whatsapp.com/BW3Vp0qxHCDI1a8h9DQmHA?mode=wwc" target="_blank" aria-label="WhatsApp Group" class="hover:text-stone-300 transition-colors">
-                    <!-- WhatsApp SVG -->
-                    <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                    </svg>
-                </a>
+
+            <div class="mt-8 text-center text-sm text-stone-500">
+                <p>&copy; 2026 Ebun's Vault. All rights reserved. Designed by Aruosa Tech.</p>
             </div>
-           <p class="text-xs mt-4 text-stone-400">Designed &amp; Developed by <a href="https://aruosatech360-png.github.io/Aruosa-Tech-Site/" target="_blank" rel="noopener noreferrer" class="hover:text-stone-300 transition-colors">Aruosa Tech</a></p>
         </div>
     </footer>
 

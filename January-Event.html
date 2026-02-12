@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>January 2026 — Mindset Shift | Ebun's Vault</title>
+    <link rel="icon" href="favicon.ico">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-+yY0qf8pI0y1w5aYc6c0+q1bZ4n0g9Hq2uCk6pE2xE3xdm7u+6fUjI2z0I2QGqv3lK6xk9mE2qL6+XfG3J0K1A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0a1f44',
+                        accent: '#0d6efd'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts (Poppins) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Gallery styles */
+        .gallery-item { overflow: hidden; border-radius: 0.5rem; }
+        .gallery-item img { transition: transform .35s ease, filter .35s ease; display:block; }
+        .gallery-item:hover img { transform: scale(1.06); filter:brightness(0.95); }
+        #modal { transition: opacity .25s ease; }
+        @media (max-width: 640px) {
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.25rem; }
+        }
+    </style>
+</head>
+<body class="bg-white text-stone-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-stone-900 text-white shadow-md">
+        <nav class="container mx-auto px-6 py-4 flex items-center justify-between" role="navigation" aria-label="Main Navigation">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-2">
+                    <img src="Images/Ebun's Vault Logo.jpg" alt="Ebun's Vault Logo" class="h-10 w-auto rounded-md" loading="lazy" decoding="async">
+                    <span class="font-bold text-white text-lg">Ebun's Vault</span>
+                </a>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="text-stone-300 hover:text-white text-sm">Home</a>
+                <a href="Events.html" class="text-stone-300 hover:text-white text-sm">Events</a>
+                <a href="https://chat.whatsapp.com/BW3Vp0qxHCDI1a8h9DQmHA?mode=wwc" target="_blank" class="bg-stone-700 hover:bg-stone-600 px-4 py-2 rounded-full text-sm">Join Community</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+       
+        <!-- Event Gallery -->
+        <section class="bg-white py-12 md:py-16">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-2">January 2026 — Mindset Shift (Gallery)</h2>
+                    <p class="text-stone-500 mb-4">Click any image to view it full-size. Use ← → to navigate, Esc to close.</p>
+                    <!-- featured removed to simplify gallery on small screens -->
+                </div>
+
+                <div id="gallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
+            </div>
+
+            <!-- Modal -->
+            <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden items-center justify-center z-50">
+                <button id="modal-close" aria-label="Close" style="z-index:10001;" class="absolute top-6 right-6 text-white text-3xl font-bold p-2 bg-black bg-opacity-40 rounded-full">&times;</button>
+                <button id="modal-prev" aria-label="Previous" style="z-index:10000; left:1rem;" class="absolute text-white text-3xl p-2 bg-black bg-opacity-30 rounded-full">&#10094;</button>
+                <button id="modal-next" aria-label="Next" style="z-index:10000; right:1rem;" class="absolute text-white text-3xl p-2 bg-black bg-opacity-30 rounded-full">&#10095;</button>
+                <img id="modal-img" src="" alt="" class="max-w-[95%] max-h-[90%] rounded-lg shadow-lg touch-pan-y" style="z-index:9999;">
+            </div>
+
+            <script>
+                (function(){
+                    const gallery = document.getElementById('gallery');
+                    const modal = document.getElementById('modal');
+                    const modalImg = document.getElementById('modal-img');
+                    const closeBtn = document.getElementById('modal-close');
+                    let galleryImgs = [];
+                    let currentIndex = -1;
+
+                    function openModalByIndex(idx){
+                        if(idx < 0 || idx >= galleryImgs.length) return;
+                        currentIndex = idx;
+                        const {src, alt} = galleryImgs[idx];
+                        modalImg.src = src;
+                        modalImg.alt = alt || '';
+                        modal.classList.remove('hidden');
+                        modal.classList.add('flex');
+                        gsap.fromTo(modalImg, {scale:0.9, opacity:0}, {scale:1, opacity:1, duration:0.35, ease:'power2.out'});
+                        gsap.fromTo(modal, {autoAlpha:0}, {autoAlpha:1, duration:0.25});
+                    }
+
+                    function closeModal(){
+                        gsap.to(modalImg, {scale:0.95, opacity:0, duration:0.18, onComplete:function(){
+                            modal.classList.add('hidden');
+                            modal.classList.remove('flex');
+                            modalImg.src = '';
+                        }});
+                        gsap.to(modal, {autoAlpha:0, duration:0.18});
+                    }
+
+                    closeBtn.addEventListener('click', closeModal);
+                    // Ensure close button catches taps/clicks
+                    closeBtn.addEventListener('touchstart', function(e){ e.stopPropagation(); closeModal(); }, {passive:true});
+                    modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+
+                    // Prev/Next buttons
+                    const prevBtn = document.getElementById('modal-prev');
+                    const nextBtn = document.getElementById('modal-next');
+                    if(prevBtn) prevBtn.addEventListener('click', function(e){ e.stopPropagation(); openModalByIndex(Math.max(currentIndex-1, 0)); });
+                    if(nextBtn) nextBtn.addEventListener('click', function(e){ e.stopPropagation(); openModalByIndex(Math.min(currentIndex+1, galleryImgs.length-1)); });
+                    if(prevBtn) prevBtn.addEventListener('touchstart', function(e){ e.stopPropagation(); openModalByIndex(Math.max(currentIndex-1, 0)); }, {passive:true});
+                    if(nextBtn) nextBtn.addEventListener('touchstart', function(e){ e.stopPropagation(); openModalByIndex(Math.min(currentIndex+1, galleryImgs.length-1)); }, {passive:true});
+                    document.addEventListener('keydown', function(e){
+                        if(modal.classList.contains('hidden')) return;
+                        if(e.key === 'Escape') closeModal();
+                        if(e.key === 'ArrowRight') openModalByIndex(Math.min(currentIndex+1, galleryImgs.length-1));
+                        if(e.key === 'ArrowLeft') openModalByIndex(Math.max(currentIndex-1, 0));
+                    });
+
+                    // Additional static images referenced in the page
+                    const extras = [
+                        'Mindset shift  excerpts (1).jpg','Mindset shift  excerpts (2).jpg','Mindset shift  excerpts (3).jpg',
+                        'Mindset shift  excerpts (4).jpg','Mindset shift  excerpts (5).jpg','Mindset shift  excerpts (6).jpg',
+                        'Mindset shift  excerpts (7).jpg','Mindset shift  excerpts (8).jpg','Mindset shift  excerpts (9).jpg',
+                        'Mindset shift  excerpts (10).jpg','Mindset shift  excerpts (11).jpg','Mindset shift  excerpts (12).jpg',
+                        'Mindset shift  excerpts.jpg','Minimalist Motivational Quotes Instagram Post.jpg'
+                    ];
+
+                    // Try loading numbered images 1..20 from Images/January/ with common extensions
+                    const count = 20;
+                    const exts = ['jpg','jpeg','png','webp'];
+
+                    function createItem(src, alt){
+                        const wrap = document.createElement('div');
+                        wrap.className = 'gallery-item cursor-pointer';
+                        const img = document.createElement('img');
+                        img.src = src;
+                        img.alt = alt || '';
+                        img.loading = 'lazy';
+                        img.className = 'w-full h-44 sm:h-36 object-cover';
+                        wrap.appendChild(img);
+                        return {wrap, img, src, alt};
+                    }
+
+                    // Load extras first (they might live in root)
+                    extras.forEach(function(name){
+                        const path = name.startsWith('Images/') ? name : name; // try relative first
+                        const item = createItem(path, name);
+                        const idx = galleryImgs.length;
+                        galleryImgs.push({src:item.src, alt:item.alt});
+                        item.wrap.addEventListener('click', function(){ openModalByIndex(idx); });
+                        gallery.appendChild(item.wrap);
+                    });
+
+                    // Load Images/January/<n>.<ext>
+                    for(let i=1;i<=count;i++){
+                        (function(idx){
+                            let tried = 0;
+                            const imgEl = document.createElement('img');
+                            imgEl.className = 'w-full h-44 sm:h-36 object-cover rounded-md';
+                            imgEl.alt = 'January '+idx;
+                            function tryNext(){
+                                if(tried >= exts.length){ return; }
+                                const ext = exts[tried++];
+                                imgEl.src = `Images/January/${idx}.${ext}`;
+                            }
+                            imgEl.onload = function(){
+                                const wrap = document.createElement('div');
+                                wrap.className = 'gallery-item cursor-pointer';
+                                wrap.appendChild(imgEl);
+                                const index = galleryImgs.length;
+                                galleryImgs.push({src:imgEl.src, alt:imgEl.alt});
+                                wrap.addEventListener('click', function(){ openModalByIndex(index); });
+                                gallery.appendChild(wrap);
+                            };
+                            imgEl.onerror = tryNext;
+                            tryNext();
+                        })(i);
+                    }
+
+                    // Animate gallery items as they appear
+                    const obs = new MutationObserver(function(){
+                        const items = gallery.querySelectorAll('.gallery-item');
+                        gsap.fromTo(items, {y:18, opacity:0}, {y:0, opacity:1, stagger:0.06, duration:0.55, ease:'power2.out'});
+                        obs.disconnect();
+                    });
+                    obs.observe(gallery, {childList:true});
+
+                    // Update featured image when hovering thumbnails (and on touch for mobile)
+                    gallery.addEventListener('mouseover', function(e){
+                        const img = e.target.closest('.gallery-item') && e.target.closest('.gallery-item').querySelector('img');
+                        if(img) featured.src = img.src;
+                    });
+                    gallery.addEventListener('touchstart', function(e){
+                        const img = e.target.closest('.gallery-item') && e.target.closest('.gallery-item').querySelector('img');
+                        if(img) featured.src = img.src;
+                    }, {passive:true});
+
+                    // Touch swipe support on modal image for mobile
+                    let touchStartX = 0;
+                    let touchStartY = 0;
+                    let touchMoving = false;
+                    const swipeThreshold = 40; // px
+                    modalImg.addEventListener('touchstart', function(e){
+                        if(!e.touches || e.touches.length === 0) return;
+                        touchStartX = e.touches[0].clientX;
+                        touchStartY = e.touches[0].clientY;
+                        touchMoving = true;
+                    }, {passive:true});
+                    modalImg.addEventListener('touchmove', function(e){
+                        if(!touchMoving) return;
+                        // prevent vertical page scroll only when horizontal swipe is detected
+                    }, {passive:true});
+                    modalImg.addEventListener('touchend', function(e){
+                        if(!touchMoving) return;
+                        touchMoving = false;
+                        const touch = (e.changedTouches && e.changedTouches[0]);
+                        if(!touch) return;
+                        const dx = touch.clientX - touchStartX;
+                        const dy = touch.clientY - touchStartY;
+                        if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > swipeThreshold){
+                            if(dx < 0){ // swipe left -> next
+                                openModalByIndex(Math.min(currentIndex+1, galleryImgs.length-1));
+                            } else { // swipe right -> prev
+                                openModalByIndex(Math.max(currentIndex-1, 0));
+                            }
+                        }
+                    }, {passive:true});
+
+                    // Ensure close button is clickable on mobile (increase hit area)
+                    const closeBtnEl = document.getElementById('modal-close');
+                    if(closeBtnEl) closeBtnEl.style.touchAction = 'manipulation';
+
+                })();
+            </script>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-white mt-12">
+        <div class="container mx-auto px-6 py-12">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-start mb-8">
+                <div>
+                    <a href="index.html" class="flex items-center gap-3 mb-4">
+                        <img src="Images/Ebun's Vault Logo.jpg" alt="Ebun's Vault Logo" class="h-10 w-auto rounded-md" loading="lazy" decoding="async">
+                        <span class="font-bold text-white">Ebun's Vault</span>
+                    </a>
+                    <p class="text-stone-400 text-sm">Practical digital guides, templates and seminars for creators and beginners.</p>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <h3 class="font-semibold">Quick Links</h3>
+                    <a href="index.html" class="text-stone-400 text-sm hover:text-white">Home</a>
+                    <a href="Events.html" class="text-stone-400 text-sm hover:text-white">Events</a>
+                    <a href="Privacy Policy.html" class="text-stone-400 text-sm hover:text-white">Privacy Policy</a>
+                    <a href="Terms of Service.html" class="text-stone-400 text-sm hover:text-white">Terms of Service</a>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold mb-3">Follow Us</h3>
+                    <div class="flex gap-4">
+                        <a href="https://x.com/ebunsvault365" target="_blank" class="text-stone-400 hover:text-white">X</a>
+                        <a href="https://www.instagram.com/ebunsvault365/" target="_blank" class="text-stone-400 hover:text-white">Instagram</a>
+                        <a href="https://chat.whatsapp.com/BW3Vp0qxHCDI1a8h9DQmHA?mode=wwc" target="_blank" class="text-stone-400 hover:text-white">WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center text-sm text-stone-500 border-t border-stone-700 pt-8">
+                <p>&copy; 2026 Ebun's Vault. All rights reserved. Designed by Aruosa Tech.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

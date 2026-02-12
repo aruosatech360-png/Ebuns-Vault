@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events & Seminars | Ebun's Vault</title>
+    <link rel="icon" href="favicon.ico">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0a1f44',
+                        accent: '#0d6efd'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts (Poppins) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #5D4037 0%, #3E2723 100%);
+        }
+        @media (max-width: 640px) {
+            section.relative.h-screen { min-height: 60vh; height: auto; }
+            section[class*="py-"] { padding-top: 2rem; padding-bottom: 2rem; }
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.25rem; }
+        }
+    </style>
+</head>
+<body class="bg-white text-stone-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-stone-900 text-white shadow-md">
+        <nav class="container mx-auto px-6 py-4 flex items-center justify-between" role="navigation" aria-label="Main Navigation">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-2">
+                    <img src="Images/Ebun's Vault Logo.jpg" alt="Ebun's Vault Logo" class="h-10 w-auto rounded-md" loading="lazy" decoding="async">
+                    <span class="font-bold text-white text-lg">Ebun's Vault</span>
+                </a>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="text-stone-300 hover:text-white">Home</a>
+                <a href="#" class="text-stone-300 hover:text-white">Events</a>
+                <a href="https://chat.whatsapp.com/BW3Vp0qxHCDI1a8h9DQmHA?mode=wwc" target="_blank" class="bg-stone-700 hover:bg-stone-600 px-4 py-2 rounded-full text-sm">Join Community</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Introductory Section -->
+        <section class="bg-gradient-to-r from-stone-800 to-stone-700 text-white py-12 md:py-16">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4">Events & Seminars</h1>
+                <p class="text-stone-200 max-w-2xl mx-auto text-lg leading-relaxed">
+                    We host monthly live seminars designed to equip you with practical skills, real strategies, and the mindset shifts you need to succeed in digital marketing and personal growth. Below are visual excerpts from our past events — join our WhatsApp community to stay updated on upcoming sessions.
+                </p>
+            </div>
+        </section>
+
+        <!-- Past Events - Image Gallery -->
+        <section class="bg-white py-12 md:py-16">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-10">
+                    <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-2">Event Excerpts</h2>
+                    <p class="text-stone-600">Visual highlights and key takeaways from our seminars.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    <!-- January Event - Image Focus - Clickable -->
+                    <a href="January-Event.html" class="group">
+                        <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-md hover:shadow-lg hover:border-accent transition h-full">
+                            <div class="bg-stone-900 text-white p-3">
+                                <h3 class="text-base md:text-lg font-bold group-hover:text-accent transition">January 2026 — Mindset Shift</h3>
+                                <p class="text-stone-300 text-xs mt-1">Click to view full excerpt</p>
+                            </div>
+                            <img src="Mindset shift.jpeg" alt="January 2026 Seminar — Mindset Shift Excerpt" class="w-full h-48 object-cover bg-stone-50" loading="lazy" decoding="async">
+                            <div class="p-4 text-center">
+                                <span class="inline-block bg-stone-800 text-white font-semibold py-1 px-4 text-sm rounded-full group-hover:bg-accent transition">View Details</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Events - Coming Soon -->
+        <section class="bg-stone-50 py-12 md:py-16">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-10">
+                    <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-2">Upcoming Events</h2>
+                    <p class="text-stone-600">More seminars coming soon — register in our WhatsApp community for updates.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    <!-- February Coming Soon -->
+                    <div class="bg-white rounded-2xl border-2 border-accent overflow-hidden shadow-md">
+                        <div class="bg-gradient-to-r from-stone-800 to-stone-700 text-white p-3">
+                            <h3 class="text-base md:text-lg font-bold">February 2026</h3>
+                            <p class="text-stone-300 text-xs mt-1">Excerpt coming soon...</p>
+                        </div>
+                        <div class="w-full h-48 bg-gradient-to-br from-stone-100 to-stone-200 flex items-center justify-center">
+                            <div class="text-center">
+                                <p class="text-stone-600 font-semibold text-sm">Coming Soon</p>
+                                <p class="text-stone-500 text-xs mt-1">Excerpt loading...</p>
+                            </div>
+                        </div>
+                        <div class="p-4 text-center">
+                            <a href="https://chat.whatsapp.com/BW3Vp0qxHCDI1a8h9DQmHA?mode=wwc" target="_blank" class="inline-block bg-accent text-white font-semibold py-1 px-4 text-sm rounded-full hover:bg-blue-600 transition">Join for Updates</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-start mb-8">
+                <div>
+                    <a href="index.html" class="flex items-center gap-3 mb-4">
+                        <img src="Images/Ebun's Vault Logo.jpg" alt="Ebun's Vault Logo" class="h-10 w-auto rounded-md" loading="lazy" decoding="async">
+                        <span class="font-bold text-white">Ebun's Vault</span>
+                    </a>
+                    <p class="text-stone-400 text-sm">Practical digital guides, templates and seminars for creators and beginners.</p>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <h3 class="font-semibold">Quick Links</h3>
+                    <a href="index.html" class="text-stone-400 text-sm hover:text-white">Home</a>
+                    <a href="#" class="text-stone-400 text-sm hover:text-white">Events</a>
+                    <a href="Privacy Policy.html" class="text-stone-400 text-sm hover:text-white">Privacy Policy</a>
+                    <a href="Terms of Service.html" class="text-stone-400 text-sm hover:text-white">Terms of Service</a>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold mb-3">Follow Us</h3>
+                    <div class="flex gap-4">
+                        <a href="https://x.com/ebunsvault365" target="_blank" class="text-stone-400 hover:text-white">X</a>
+                        <a href="https://www.instagram.com/ebunsvault365/" target="_blank" class="text-stone-400 hover:text-white">Instagram</a>
+                        <a href="https://chat.whatsapp.com/BW3Vp0qxHCDI1a8h9DQmHA?mode=wwc" target="_blank" class="text-stone-400 hover:text-white">WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center text-sm text-stone-500 border-t border-stone-700 pt-8">
+                <p>&copy; 2026 Ebun's Vault. All rights reserved. Designed by Aruosa Tech.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
